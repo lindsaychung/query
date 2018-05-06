@@ -12,11 +12,14 @@ import mutagen
 import time
 from mutagen.flac import FLAC, Picture
 import contextlib
+from config import Config
+
 
 '''This programs depend on view_t9 and view_t10 on hifitrack database'''
 
 app = Flask(__name__)
-e = create_engine('mysql+pymysql://root:ilovehifi@localhost/hifitrackD72?charset=utf8', pool_size=80, max_overflow=20, pool_timeout=5)
+app.config.from_object(Config)
+e = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], pool_size=80, max_overflow=20, pool_timeout=5)
 
 api = Api(app, version='1.0', title='Hifitrack API',
     description='Admin API',
